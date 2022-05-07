@@ -10,7 +10,15 @@ namespace Resturant
 
         public const bool MultiTenancyEnabled = true;
 
+        public const string LocalizationTokens = "Tokens";
 
+        public const string LocalizationDataAnnotations = "DataAnnotations";
+
+        public const string LocalizationExceptions = "Exceptions";
+
+        public const string LocalizationMessages = "Messages";
+
+        public const string NameFormat = @"^[\u0600-\u06FFa-zA-Z0-9-, ]+([_\.]?[\u0600-\u06FFa-zA-Z0-9-, ])*$";
         /// <summary>
         /// Default pass phrase for SimpleStringCipher decrypt/encrypt operations
         /// </summary>
