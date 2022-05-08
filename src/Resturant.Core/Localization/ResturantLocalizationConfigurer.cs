@@ -1,7 +1,9 @@
 ﻿using Abp.Configuration.Startup;
 using Abp.Localization.Dictionaries;
 using Abp.Localization.Dictionaries.Xml;
+using Abp.Localization.Sources.Resource;
 using Abp.Reflection.Extensions;
+using Resturant.Localization.SourceFiles;
 
 namespace Resturant.Localization
 {
@@ -16,7 +18,13 @@ namespace Resturant.Localization
                         "Resturant.Localization.SourceFiles"
                     )
                 )
-            );
+            ); localizationConfiguration.Sources.Add(
+              new ResourceFileLocalizationSource(
+                  "Tokens",
+                  Tokens.ResourceManager
+                  )
+          );
+
         }
     }
 }

@@ -70,20 +70,20 @@ namespace Resturant.Localization.SourceFiles {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {} Already Exist.
-        /// </summary>
-        public static string ObjectAlreadyExisted {
-            get {
-                return ResourceManager.GetString("ObjectAlreadyExisted", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to {0} Creation Failed.
         /// </summary>
         public static string CreationFailed {
             get {
                 return ResourceManager.GetString("CreationFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {} Already Exist.
+        /// </summary>
+        public static string ObjectAlreadyExisted {
+            get {
+                return ResourceManager.GetString("ObjectAlreadyExisted", resourceCulture);
             }
         }
         

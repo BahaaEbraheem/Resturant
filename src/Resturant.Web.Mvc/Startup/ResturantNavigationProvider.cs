@@ -13,7 +13,19 @@ namespace Resturant.Web.Startup
         public override void SetNavigation(INavigationProviderContext context)
         {
             context.Manager.MainMenu
-                .AddItem(
+              .AddItem(
+                    new MenuItemDefinition(
+                        PageNames.Admins,
+                        L("Admins"),
+                        url: "Admins",
+                        icon: "fas fa-info-circle"
+                    )
+                )
+              
+              
+              
+              
+              .AddItem(
                     new MenuItemDefinition(
                         PageNames.About,
                         L("About"),

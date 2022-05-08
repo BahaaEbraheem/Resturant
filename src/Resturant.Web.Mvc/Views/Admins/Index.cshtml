@@ -1,0 +1,146 @@
+﻿@using Resturant.Web.Startup
+@*@model IEnumerable<Resturant.Models.Admins.AdminViewModel>*@
+@using Resturant.Models
+@model Resturant.Web.Models.Admins.AdminViewModel
+@{
+    ViewData["Title"] = Tokens.Admins;
+    ViewBag.CurrentPageName = PageNames.Admins;
+}
+
+@section styles{
+
+}
+
+<h1 class="text-gray page-title">@Tokens.Admins</h1>
+
+<body>
+
+
+
+
+
+    <div class="container-fluid body-content">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="hvr-box-shadow-outset jumbotron">
+                    <h1 class="text-center">الماسكين</h1>
+                    <p class="lead"></p>
+                </div>
+            </div>
+
+            <div class="panel-body">
+
+
+                <div class="row form-inline">
+
+
+                    <div class="form-group ">
+
+
+                        <div>
+                            @Html.ActionLink("إضافة ماسك جديد", "Create", "CATCHER", new { @class = "btn btn-success btn-lg" })
+                        </div>
+
+                    </div>
+                </div>
+
+
+                <div class="panel">
+                    <table class="table table-striped">
+                        <thead class="thead-light">
+                            <tr>
+                                <th>
+                                    <label class="lb-lg"></label>
+                                </th>
+                                <th>
+                                    <label class="lb-lg">الاسم الثلاثي</label>
+                                </th>
+
+                                <th>
+                                    <label class="lb-lg">الرقم الوطني </label>
+                                </th>
+                                <th>
+                                    <label class="lb-lg">النوع</label>
+                                </th>
+                                <th>
+                                    <label class="lb-lg">الباركود  </label>
+                                </th>
+                                <th>
+                                    <label class="lb-lg">عمليات أخرى </label>
+                                </th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @*@foreach (var item in Model.Admins)
+        {
+            <tr>
+                <td></td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.)  @Html.DisplayFor(modelItem => item.CATCHER.MID_NAME)  @Html.DisplayFor(modelItem => item.CATCHER.LAST_NAME)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.CATCHER.NATIONAL_NUM)
+                </td>
+                <td>
+                    @if (item.CATCHER.TYPE == true)
+                    {
+                        <label class="lb-md" style="color:red">(كاتب)</label>
+                    }
+                    else
+                    {
+                        <label class="lb-md" style="color:black;"> (خازن)</label>
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CATCHER.BARCODE)
+                </td>
+                <td>
+                    <a href="@Url.Action("Edit", "CATCHER",new { id=item.CATCHER.ID })" class="btn btn-warning btn-xs">
+                        التعديل
+                        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                    </a>
+                    <a href="@Url.Action("Details", "CATCHER",new { id=item.CATCHER.ID })" class="btn btn-warning btn-xs ">
+                        التفاصيل
+                        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+                    </a>
+                    <a href="@Url.Action("Delete", "CATCHER",new { id=item.CATCHER.ID })" class="btn btn-xs btn-danger ">
+                        الحذف
+                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                    </a>
+
+
+                </td>
+            </tr>
+        }*@
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+<div class="container">
+    <form id="sss" class="form-vertical" method="post" asp-action="Index">
+        <div class="bg-grey-form">
+
+
+
+            <!-- Wizard controls start-->
+            <div class="container row text-center">
+                <div class="col-4 text-left"></div>
+                <div class="col-4"></div>
+                <div class="col-4 text-right">
+                    <button type="submit" class="btn btn-custom bg-cyan">@Tokens.Next</button>
+                </div>
+            </div>
+
+
+        </div>
+
+    </form>
+
+</div>
