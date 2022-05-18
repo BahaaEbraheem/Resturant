@@ -21,8 +21,8 @@ using Abp.Json;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.WebEncoders;
 using Newtonsoft.Json.Serialization;
-
-
+using Resturant.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
 namespace Resturant.Web.Startup
 {
@@ -63,7 +63,8 @@ namespace Resturant.Web.Startup
             {
                 options.TextEncoderSettings = new TextEncoderSettings(UnicodeRanges.All);
             });
-            
+    
+
             services.AddScoped<IWebResourceManager, WebResourceManager>();
 
             services.AddSignalR();
@@ -106,7 +107,9 @@ namespace Resturant.Web.Startup
 
             app.UseEndpoints(endpoints =>
             {
+               
                 endpoints.MapHub<AbpCommonHub>("/signalr");
+
                 endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapControllerRoute("defaultWithArea", "{area}/{controller=Home}/{action=Index}/{id?}");
             });

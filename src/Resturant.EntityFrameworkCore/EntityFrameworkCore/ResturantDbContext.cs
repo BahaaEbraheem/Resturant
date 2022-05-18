@@ -4,6 +4,7 @@ using Resturant.Authorization.Roles;
 using Resturant.Authorization.Users;
 using Resturant.MultiTenancy;
 using Resturant.Models;
+using System;
 
 namespace Resturant.EntityFrameworkCore
 {
@@ -17,5 +18,12 @@ namespace Resturant.EntityFrameworkCore
         {
         }
 
+        //public ResturantDbContext CreateDbContext(string[] args)
+        //{
+        //    var optionsBuilder = new DbContextOptionsBuilder<ResturantDbContext>();
+        //    optionsBuilder.UseSqlServer(ResturantConsts.ConnectionStringName, opts => opts.CommandTimeout((int)TimeSpan.FromMinutes(10).TotalSeconds));
+
+        //    return new ResturantDbContext(optionsBuilder.Options);
+        //}
     }
 }

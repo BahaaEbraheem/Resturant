@@ -21,10 +21,17 @@ namespace Resturant.Web.Startup
                         icon: "fas fa-info-circle"
                     )
                 )
-              
-              
-              
-              
+              .AddItem(
+                    new MenuItemDefinition(
+                        PageNames.Menu,
+                        L("Menu"),
+                        url: "/home/Menu",
+                        icon: "fas fa-info-circle"
+                    )
+                )
+
+
+
               .AddItem(
                     new MenuItemDefinition(
                         PageNames.About,

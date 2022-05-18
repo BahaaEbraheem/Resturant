@@ -1,14 +1,46 @@
-﻿<ul class="navbar-nav">
-    <li class="nav-item">
-        <a class="nav-link" data-widget="pushmenu" href="javascript:;"><i class="fas fa-bars"></i></a>
-    </li>
-    <li class="nav-item d-none d-sm-inline-block">
-        <a class="nav-link" asp-controller="Home" asp-action="Index">@L("HomePage")</a>
-    </li>
-    <li class="nav-item d-none d-sm-inline-block">
-        <a class="nav-link" asp-controller="About" asp-action="Index">@L("About")</a>
-    </li>
-    <li class="nav-item d-none d-sm-inline-block">
-        <a class="nav-link" asp-controller="Admins" asp-action="Index">@L("Admins")</a>
-    </li>
-</ul>
+﻿@*<ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" data-widget="pushmenu" href="javascript:;"><i class="fas fa-bars"></i></a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a class="nav-link" asp-controller="Home" asp-action="Index">@L("HomePage")</a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a class="nav-link" asp-controller="About" asp-action="Index">@L("About")</a>
+        </li>
+        <li class="nav-item d-none d-sm-inline-block">
+            <a class="nav-link" asp-controller="Admins" asp-action="Index">@L("Admins")</a>
+        </li>
+    </ul>*@
+
+@using Resturant.Web.Views.Shared.Components.SideBarMenu
+@using Resturant.Web.Views.Shared.Components.SideBarUserArea
+
+
+@await Component.InvokeAsync(typeof(SideBarUserAreaViewComponent))
+
+<button class="navbar-toggler" data-toggle="collapse" data-target="#responsive"><span class="navbar-toggler-icon"></span></button>
+
+<div class="collapse navbar-collapse text-uppercase " id="responsive">
+
+    <ul class="navbar-nav">
+        <li class="nav-item"><a href="/home/Index" class="nav-link active">Home</a></li>
+        <li class="nav-item"><a href="#" class="nav-link">restaurant</a></li>
+        <li class="nav-item"><a class="nav-link" href="/home/Menu" >@Tokens.Menu</a></li>
+        <li class="nav-item"><a href="#" class="nav-link">Services</a></li>
+        <li class="nav-item"><a href="#" class="nav-link">Photography</a></li>
+        <li class="nav-item"><a href="#" class="nav-link">News</a></li>
+        <li class="nav-item"><a href="/Home/Reserve" class="nav-link">Reservation</a></li>
+        <li class="nav-item"><a href="#" class="nav-link">Contact</a></li>
+        <li class="nav-item dropdown">
+            <a href="#" class="nav-link" data-toggle="dropdown" data-target="#dropdown_target">piu <span class="caret"></span></a>
+            <div class="dropdown-menu" aria-labelledby="dropdown_target">
+
+                <a href="#" class="dropdown-item">Teremani e condition</a>
+                <a href="#" class="dropdown-item">miskolo the dis</a>
+            </div>
+    </ul>
+
+</div>
+
+

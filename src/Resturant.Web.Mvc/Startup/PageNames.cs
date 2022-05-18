@@ -9,6 +9,7 @@
         public const string Roles = "Roles";
 
         public const string Admins = "Admins";
+        public const string Menu = "Menu";
 
     }
 }

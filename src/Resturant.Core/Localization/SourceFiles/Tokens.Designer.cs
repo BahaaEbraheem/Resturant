@@ -1247,7 +1247,16 @@ namespace Resturant.Localization.SourceFiles {
                 return ResourceManager.GetString("Male", resourceCulture);
             }
         }
-        
+        /// <summary>
+        ///   Looks up a localized string similar to Mission.
+        /// </summary>
+        public static string Menu
+        {
+            get
+            {
+                return ResourceManager.GetString("Menu", resourceCulture);
+            }
+        }
         /// <summary>
         ///   Looks up a localized string similar to Mission.
         /// </summary>

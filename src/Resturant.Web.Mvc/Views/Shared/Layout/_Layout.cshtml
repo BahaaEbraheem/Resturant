@@ -25,11 +25,11 @@
     @await Html.PartialAsync("_Styles.cshtml")
     @RenderSection("styles", required: false)
 </head>
-<body class="hold-transition sidebar-mini">
-    <div class="wrapper">
+<body>
+    <div >
         @await Html.PartialAsync("_Header.cshtml")
-        @await Html.PartialAsync("_SideBar.cshtml")
-        <div class="content-wrapper">
+      @* @await Html.PartialAsync("_SideBar.cshtml")*@
+        <div >
             @await Html.PartialAsync("_Alerts.cshtml")
             @RenderBody()
         </div>

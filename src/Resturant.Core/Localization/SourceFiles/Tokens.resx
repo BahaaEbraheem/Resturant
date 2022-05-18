@@ -732,4 +732,7 @@
   <data name="Admins" xml:space="preserve">
     <value>Admins</value>
   </data>
+  <data name="Menu" xml:space="preserve">
+    <value>Menu</value>
+  </data>
 </root>
