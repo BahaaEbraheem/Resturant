@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Resturant.Web.Controllers
 {
-    //[AbpMvcAuthorize]
+    [AbpMvcAuthorize]
     public class HomeController : ResturantControllerBase
     {
         public ActionResult Index()
