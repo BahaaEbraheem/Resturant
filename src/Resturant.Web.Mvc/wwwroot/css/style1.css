@@ -300,6 +300,7 @@ footer {
 
 .banner3 {
     background-image: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.5)),url(~/img/banner3.jpg);
+    background-image: url('file:///D:\Resturant_Projects\Resturant\7.1.0\aspnet-core\src\Resturant.Web.Mvc\wwwroot\img\banner3.jpg');
     background-size: cover;
     background-position: center;
     max-width: 100%;
@@ -312,7 +313,7 @@ footer {
     width: 100%;
     height: 446px;
     position: relative;
-    bottom: 240px;
+    bottom: 0;
 }
 
 .input-group-text {
