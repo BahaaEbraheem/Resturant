@@ -32,17 +32,17 @@
 @if (!hasSubMenus)
 {
     var linkUrl = CalculateMenuUrl(Model.Url);
-    var linkClasses = $"nav-link {(isActive ? "active" : null)}";
+    var linkClasses = $"nav-link {(false ? "active" : null)}";
     var linkTarget = !string.IsNullOrEmpty(Model.Target) ? Html.Raw($" target=\"{Model.Target}\"") : null;
 
     <li class="nav-item">
         <a href="@linkUrl" class="@linkClasses" @linkTarget>
-            @if (!string.IsNullOrEmpty(Model.Icon))
-            {
-                <text>
-                    <i class="nav-icon @Url.Content(Model.Icon)"></i>
-                </text>
-            }
+            @*@if (!string.IsNullOrEmpty(Model.Icon))
+                {
+                    <text>
+                        <i class="nav-icon @Url.Content(Model.Icon)"></i>
+                    </text>
+                }*@
             <p>@Model.DisplayName</p>
         </a>
     </li>
@@ -51,36 +51,57 @@ else
 {
     var navitemClasses = $"nav-item {(hasSubMenus ? "has-treeview" : "")} {(isActive ? "menu-open" : "")}";
     navitemClasses = !string.IsNullOrEmpty(navitemClasses?.Trim()) ? navitemClasses : null;
-    var linkClasses = $"nav-link {(isActive ? "active" : null)}";
+    var linkClasses = $"nav-link {(false ? "active" : null)}";
 
-    <li class="@navitemClasses">
-        <a href="javascript:;" class="@linkClasses">
-            @if (!string.IsNullOrEmpty(Model.Icon))
-            {
+    <li class="nav-item dropdown">
+        <a href="javascript:;" class="@linkClasses nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            @Model.DisplayName
+            @*@if (!string.IsNullOrEmpty(Model.Icon))
+                        {
                 <text>
                     <i class="nav-icon @Url.Content(Model.Icon)"></i>
-                </text>
-            }
-            <p>
-                @Model.DisplayName
-                @if (LanguageManager.CurrentLanguage.IsRightToLeft)
-                {
-                    <i class="fas fa-angle-right right"></i>
-                }
+                </text>}
+                        <p>
+                            @Model.DisplayName
+                            @if (LanguageManager.CurrentLanguage.IsRightToLeft)
+                            {
+                <i class="fas fa-angle-right right"></i> }
                 else
                 {
-                    <i class="fas fa-angle-left right"></i>
-                }
-            </p>
+                <i class="fas fa-angle-left right"></i>}
+                        </p>*@
+
         </a>
         @if (hasSubMenus)
         {
-            <ul class="nav nav-treeview">
+
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                 @foreach (var subMenu in subMenus)
                 {
-                    @await Html.PartialAsync("Components/SideBarMenu/_MenuItem", subMenu)
+                    var linkUrl = CalculateMenuUrl(subMenu.Url);
+                    // var linkClasses = $"nav-link {(isActive ? "active" : null)}";
+                    var linkTarget = !string.IsNullOrEmpty(subMenu.Target) ? Html.Raw($" target=\"{subMenu.Target}\"") : null;
+                    <a href="@linkUrl" class="@linkClasses  dropdown-item" @linkTarget>
+                        @*@if (!string.IsNullOrEmpty(subMenu.Icon))
+                            {
+                                <text>
+                                    <i class="nav-icon @Url.Content(subMenu.Icon)"></i>
+                                </text>
+                            }*@
+                        <p>@subMenu.DisplayName</p>
+                    </a>
+
                 }
-            </ul>
+            </div>
         }
+
+
     </li>
 }
+
+
+
+
+
+
+

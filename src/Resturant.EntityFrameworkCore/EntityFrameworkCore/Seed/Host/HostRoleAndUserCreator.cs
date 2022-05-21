@@ -85,6 +85,7 @@ namespace Resturant.EntityFrameworkCore.Seed.Host
                 user.SetNormalizedNames();
 
                 adminUserForHost = _context.Users.Add(user).Entity;
+             //   adminUserForHost.PersonType = Enums.PersonType.Admin;
                 _context.SaveChanges();
 
                 // Assign Admin role to admin user

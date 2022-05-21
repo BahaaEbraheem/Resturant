@@ -42,10 +42,9 @@
     <PackageReference Include="Abp.HangFire" Version="7.1.0" />
     <PackageReference Include="Abp.RedisCache" Version="7.1.0" />
     <PackageReference Include="Abp.Castle.Log4Net" Version="7.1.0" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.3.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.3.1" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="wwwroot\libs\" />
     <Folder Include="wwwroot\view-resources\Views\_Bundles\" />
   </ItemGroup>
 </Project>

@@ -29,7 +29,14 @@ namespace Resturant.Web.Startup
                         icon: "fas fa-info-circle"
                     )
                 )
-
+              .AddItem(
+                    new MenuItemDefinition(
+                        PageNames.Reserve,
+                        L("Reserve"),
+                        url: "/Home/Reserve",
+                        icon: "fas fa-info-circle"
+                    )
+                )
 
 
               .AddItem(
@@ -50,11 +57,11 @@ namespace Resturant.Web.Startup
                     )
                 ).AddItem(
                     new MenuItemDefinition(
-                        PageNames.Tenants,
-                        L("Tenants"),
-                        url: "Tenants",
-                        icon: "fas fa-building",
-                        permissionDependency: new SimplePermissionDependency(PermissionNames.Pages_Tenants)
+                        PageNames.Customers,
+                        L("Customers"),
+                        url: "Customers",
+                        icon: "fas fa-building"
+                        //permissionDependency: new SimplePermissionDependency(PermissionNames.Pages_Tenants)
                     )
                 ).AddItem(
                     new MenuItemDefinition(

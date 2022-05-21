@@ -10,6 +10,9 @@
 
         public const string Admins = "Admins";
         public const string Menu = "Menu";
+        public const string Customers = "Customers";
+        public const string Reserve = "Reserve";
+
 
     }
 }

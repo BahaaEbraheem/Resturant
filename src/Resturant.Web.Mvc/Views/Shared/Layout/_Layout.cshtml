@@ -1,4 +1,5 @@
-﻿@using Abp.Configuration.Startup
+﻿
+@using Abp.Configuration.Startup
 @using Abp.Web.Mvc.Alerts
 @using Abp.Web.Security.AntiForgery
 @using Resturant.Web.Resources
@@ -24,20 +25,56 @@
 
     @await Html.PartialAsync("_Styles.cshtml")
     @RenderSection("styles", required: false)
+    <link rel="stylesheet" href="~/css/bootstrap.min.css">
+    <link href="~/css/font-awesome.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/style.css">
+
 </head>
 <body>
-    <div >
-        @await Html.PartialAsync("_Header.cshtml")
-      @* @await Html.PartialAsync("_SideBar.cshtml")*@
-        <div >
-            @await Html.PartialAsync("_Alerts.cshtml")
-            @RenderBody()
+
+    <header class="pt-3">
+        <div class="container-fluid">
+            @await Html.PartialAsync("_Header.cshtml")
+            <div class="header-bottom">
+                <nav class="navbar navbar-expand-lg navbar-light pl-0 pl-sm-3">
+                     @*<a class="navbar-brand" href="#">Navbar</a>*@ 
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav mr-auto">
+                            @await Html.PartialAsync("_SideBar.cshtml")
+                        </ul>
+                    </div>
+                </nav>
+            </div>
         </div>
-        @await Html.PartialAsync("_Footer.cshtml")
-    </div>
+    </header>
+    @*<div class="body-page">*@
+        @*<div class="container">*@
+            @RenderBody()
+        @*</div>*@
+    @*</div>*@
+    @await Html.PartialAsync("_Footer.cshtml")
+    <!-- After render body -->
 
     @await Html.PartialAsync("_Scripts.cshtml")
+
     @RenderSection("scripts", required: false)
+
+    <!-- WebResourceManager scripts start -->
     @WebResourceManager.RenderScripts()
+    <!-- WebResourceManager scripts end -->
+
+
+
+
+
+
 </body>
 </html>
+
+
+
+

@@ -12,6 +12,9 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="DevExtreme.AspNet.Data" Version="2.8.6" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\Resturant.Core\Resturant.Core.csproj" />
   </ItemGroup>
 </Project>

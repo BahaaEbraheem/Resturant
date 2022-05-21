@@ -54,13 +54,17 @@ namespace Resturant.Authorization.Users
                 IsEmailConfirmed = isEmailConfirmed,
                 Roles = new List<UserRole>()
             };
-
             user.SetNormalizedNames();
            
             foreach (var defaultRole in await _roleManager.Roles.Where(r => r.IsDefault).ToListAsync())
             {
                 user.Roles.Add(new UserRole(tenant.Id, user.Id, defaultRole.Id));
             }
+
+            // User بما أن عملية التسجيل محصورة بالزبائن تم وضع نوع الشحص زبون في جدول ال     
+            user.PersonType = Enums.PersonType.Customer;
+
+
 
             await _userManager.InitializeOptionsAsync(tenant.Id);
 

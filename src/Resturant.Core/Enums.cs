@@ -34,7 +34,16 @@ namespace Resturant
             [Display(ResourceType = typeof(Tokens), Name = nameof(Tokens.Female))]
             Female = 0
         }
-
+        public enum PersonType
+        {
+            [Display(ResourceType = typeof(Tokens), Name = nameof(Tokens.Admin))]
+            Admin = 1,
+            [Display(ResourceType = typeof(Tokens), Name = nameof(Tokens.Customer))]
+            Customer = 2,
+            [Display(ResourceType = typeof(Tokens), Name = nameof(Tokens.Employee))]
+            Employee = 3,
+            
+        }
 
 
     }

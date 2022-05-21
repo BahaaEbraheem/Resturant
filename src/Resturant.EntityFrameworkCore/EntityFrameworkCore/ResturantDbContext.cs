@@ -5,6 +5,7 @@ using Resturant.Authorization.Users;
 using Resturant.MultiTenancy;
 using Resturant.Models;
 using System;
+using Resturant.Models.Address;
 
 namespace Resturant.EntityFrameworkCore
 {
@@ -12,6 +13,9 @@ namespace Resturant.EntityFrameworkCore
     {
         /* Define a DbSet for each entity of the application */
         public DbSet<Admin> Admins { get; set; }
+        public DbSet<Customer> Customers { get; set; }
+        public DbSet<State> States { get; set; }
+        public DbSet<Country> Countries { get; set; }
 
         public ResturantDbContext(DbContextOptions<ResturantDbContext> options)
             : base(options)

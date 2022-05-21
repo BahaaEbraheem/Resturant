@@ -77,7 +77,48 @@ namespace Resturant.Localization.SourceFiles {
                 return ResourceManager.GetString("Accepted", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///   Looks up a localized string similar to Customer.
+        /// </summary>
+        public static string Customer
+        {
+            get
+            {
+                return ResourceManager.GetString("Customer", resourceCulture);
+            }
+        }
+ 
+        /// <summary>
+        ///   Looks up a localized string similar to Register As Customer.
+        /// </summary>
+        public static string RegisterAsCustomer
+        {
+            get
+            {
+                return ResourceManager.GetString("RegisterAsCustomer", resourceCulture);
+            }
+        }
+        /// <summary>
+        ///   Looks up a localized string similar to Add Customer.
+        /// </summary>
+        public static string AddCustomer
+        {
+            get
+            {
+                return ResourceManager.GetString("AddCustomer", resourceCulture);
+            }
+        }
+        /// <summary>
+        ///   Looks up a localized string similar to AddCustomer.
+        /// </summary>
+        public static string CustomerInfo
+        {
+            get
+            {
+                return ResourceManager.GetString("CustomerInfo", resourceCulture);
+            }
+        }
         /// <summary>
         ///   Looks up a localized string similar to Account Email.
         /// </summary>
@@ -86,7 +127,26 @@ namespace Resturant.Localization.SourceFiles {
                 return ResourceManager.GetString("AccountEmail", resourceCulture);
             }
         }
-        
+        /// <summary>
+        ///   Looks up a localized string similar to Customers.
+        /// </summary>
+        public static string Customers
+        {
+            get
+            {
+                return ResourceManager.GetString("Customers", resourceCulture);
+            }
+        }
+        /// <summary>
+        ///   Looks up a localized string similar to Customer Details.
+        /// </summary>
+        public static string CustomerDetails
+        {
+            get
+            {
+                return ResourceManager.GetString("CustomerDetails", resourceCulture);
+            }
+        }
         /// <summary>
         ///   Looks up a localized string similar to Account Statement.
         /// </summary>
@@ -104,13 +164,69 @@ namespace Resturant.Localization.SourceFiles {
                 return ResourceManager.GetString("Activate", resourceCulture);
             }
         }
-        
+        /// <summary>
+        ///   Looks up a localized string similar to Restaurant.
+        /// </summary>
+        public static string Restaurant
+        {
+            get
+            {
+                return ResourceManager.GetString("Restaurant", resourceCulture);
+            }
+        } 
+        /// <summary>
+          ///   Looks up a localized string similar to Services.
+          /// </summary>
+        public static string Services
+        {
+            get
+            {
+                return ResourceManager.GetString("Services", resourceCulture);
+            }
+        }
+        /// <summary>
+        ///   Looks up a localized string similar to News.
+        /// </summary>
+        public static string News
+        {
+            get
+            {
+                return ResourceManager.GetString("News", resourceCulture);
+            }
+        } /// <summary>
+          ///   Looks up a localized string similar to Photography.
+          /// </summary>
+        public static string Photography
+        {
+            get
+            {
+                return ResourceManager.GetString("Photography", resourceCulture);
+            }
+        }
         /// <summary>
         ///   Looks up a localized string similar to Active.
         /// </summary>
         public static string Active {
             get {
                 return ResourceManager.GetString("Active", resourceCulture);
+            }
+        }   /// <summary>
+            ///   Looks up a localized string similar to Reservation.
+            /// </summary>
+        public static string Reservation
+        {
+            get
+            {
+                return ResourceManager.GetString("Reservation", resourceCulture);
+            }
+        }   /// <summary>
+            ///   Looks up a localized string similar to Contact.
+            /// </summary>
+        public static string Contact
+        {
+            get
+            {
+                return ResourceManager.GetString("Contact", resourceCulture);
             }
         }
         

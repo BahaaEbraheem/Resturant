@@ -1,13 +1,41 @@
 ﻿@using Resturant.Web.Views.Shared.Components.RightNavbarLanguageSwitch
 @using Resturant.Web.Views.Shared.Components.RightNavbarUserArea
 
-<ul class="navbar-nav ml-auto">
+@*<ul class="navbar-nav ml-auto">
+        @await Component.InvokeAsync(typeof(RightNavbarLanguageSwitchViewComponent))
+        @await Component.InvokeAsync(typeof(RightNavbarUserAreaViewComponent))
 
-    @await Component.InvokeAsync(typeof(RightNavbarLanguageSwitchViewComponent))
-    @await Component.InvokeAsync(typeof(RightNavbarUserAreaViewComponent))
-  
 
-</ul>
 
-   
+    </ul>*@
+<style>
+    .parent {
+        border: 1px solid black;
+
+        text-align: right;
+    }
+
+    .child {
+        display: inline-block;
+        border: 1px solid black;
+        padding: 1rem 1rem;
+        vertical-align: middle;
+    }
+</style>
+<div class='parent'>
+    <div class='child'>  @await Component.InvokeAsync(typeof(RightNavbarLanguageSwitchViewComponent))</div>
+    <div class='child'> @await Component.InvokeAsync(typeof(RightNavbarUserAreaViewComponent))</div>
+</div>
+
+@*<div class="row">
+        <div class="col-5 col-sm-6">
+                @await Component.InvokeAsync(typeof(RightNavbarLanguageSwitchViewComponent))
+        </div>
+        <div class="col-7 col-sm-6">
+            <div class="profile-icon text-right">
+                @await Component.InvokeAsync(typeof(RightNavbarUserAreaViewComponent))
+
+            </div>
+        </div>
+    </div>*@
 

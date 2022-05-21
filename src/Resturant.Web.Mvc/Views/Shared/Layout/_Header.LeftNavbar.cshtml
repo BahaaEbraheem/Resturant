@@ -15,28 +15,34 @@
 
 
 
-
+@*@using Resturant.Web.Views.Shared.Components.SideBarMenu
 @using Resturant.Web.Views.Shared.Components.SideBarUserArea
-@*<aside class="main-sidebar sidebar-dark-primary elevation-4">
-    <div class="sidebar">*@
+<aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <div class="sidebar">
         @await Component.InvokeAsync(typeof(SideBarUserAreaViewComponent))
-        
-    @*</div>
+        @await Component.InvokeAsync(typeof(SideBarMenuViewComponent))
+    </div>
 </aside>*@
 
-<button class="navbar-toggler" data-toggle="collapse" data-target="#responsive"><span class="navbar-toggler-icon"></span></button>
+
+
+
+
+@*<button class="navbar-toggler" data-toggle="collapse" data-target="#responsive"><span class="navbar-toggler-icon"></span></button>
 
 <div class="collapse navbar-collapse text-uppercase " id="responsive">
 
     <ul class="navbar-nav">
-        <li class="nav-item"><a href="/home/Index" class="nav-link active">Home</a></li>
-        <li class="nav-item"><a href="#" class="nav-link">restaurant</a></li>
+        <li class="nav-item"><a href="/home/Index" class="nav-link active">@Tokens.HomePage</a></li>
+        <li class="nav-item"><a href="#" class="nav-link">@Tokens.Restaurant</a></li>
         <li class="nav-item"><a class="nav-link" href="/home/Menu">@Tokens.Menu</a></li>
-        <li class="nav-item"><a href="#" class="nav-link">Services</a></li>
-        <li class="nav-item"><a href="#" class="nav-link">Photography</a></li>
-        <li class="nav-item"><a href="#" class="nav-link">News</a></li>
-        <li class="nav-item"><a href="/Home/Reserve" class="nav-link">Reservation</a></li>
-        <li class="nav-item"><a href="#" class="nav-link">Contact</a></li>
+        <li class="nav-item"><a class="nav-link" href="/Customers/Index">@Tokens.Customers</a></li>
+
+        <li class="nav-item"><a href="#" class="nav-link">@Tokens.Services</a></li>
+        <li class="nav-item"><a href="#" class="nav-link">@Tokens.Photography</a></li>
+        <li class="nav-item"><a href="#" class="nav-link">@Tokens.News</a></li>
+        <li class="nav-item"><a href="/Home/Reserve" class="nav-link">@Tokens.Reservation</a></li>
+        <li class="nav-item"><a href="#" class="nav-link">@Tokens.Contact</a></li>
         <li class="nav-item dropdown">
             <a href="#" class="nav-link" data-toggle="dropdown" data-target="#dropdown_target">piu <span class="caret"></span></a>
             <div class="dropdown-menu" aria-labelledby="dropdown_target">
@@ -46,6 +52,6 @@
             </div>
     </ul>
 
-</div>
+</div>*@
 
 

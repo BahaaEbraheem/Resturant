@@ -13,7 +13,7 @@
         <script src="~/view-resources/Views/Account/Register.min.js" asp-append-version="true"></script>
     </environment>
 }
-<h4 class="text-center">@L("Register")</h4>
+<h4 class="text-center">@Tokens.RegisterAsCustomer</h4>
 <form id="RegisterForm" asp-action="Register" method="post">
     @if (ViewBag.ErrorMessage != null)
     {

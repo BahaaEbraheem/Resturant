@@ -76,7 +76,7 @@ namespace Resturant.EntityFrameworkCore.Seed.Tenants
                 adminUser.Password = new PasswordHasher<User>(new OptionsWrapper<PasswordHasherOptions>(new PasswordHasherOptions())).HashPassword(adminUser, "123qwe");
                 adminUser.IsEmailConfirmed = true;
                 adminUser.IsActive = true;
-
+             //   adminUser.PersonType = Enums.PersonType.Admin;
                 _context.Users.Add(adminUser);
                 _context.SaveChanges();
 
