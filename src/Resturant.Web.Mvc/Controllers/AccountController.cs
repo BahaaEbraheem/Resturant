@@ -33,12 +33,14 @@ using Resturant.Web.Views.Shared.Components.TenantChange;
 using Resturant.Addresses.CountriesService;
 using Resturant.Addresses.Dto.CountryDto;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Resturant.Domain.Customers.Models;
 
 namespace Resturant.Web.Controllers
 {
     public class AccountController : ResturantControllerBase
     {
         private readonly ICountriesAppService _countriesAppService;
+        private readonly CustomerManager _customerManager;
 
         private readonly UserManager _userManager;
         private readonly TenantManager _tenantManager;
@@ -53,6 +55,8 @@ namespace Resturant.Web.Controllers
         private readonly INotificationPublisher _notificationPublisher;
 
         public AccountController(
+            CustomerManager customerManager,
+
             ICountriesAppService countriesAppService,
             UserManager userManager,
             IMultiTenancyConfig multiTenancyConfig,
@@ -66,6 +70,7 @@ namespace Resturant.Web.Controllers
             ITenantCache tenantCache,
             INotificationPublisher notificationPublisher)
         {
+            _customerManager = customerManager;
             _countriesAppService = countriesAppService;
             _userManager = userManager;
             _multiTenancyConfig = multiTenancyConfig;

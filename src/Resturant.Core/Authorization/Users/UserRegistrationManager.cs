@@ -11,6 +11,8 @@ using Abp.Runtime.Session;
 using Abp.UI;
 using Resturant.Authorization.Roles;
 using Resturant.MultiTenancy;
+using Resturant.Domain.Customers;
+using Resturant.Domain.Customers.Models;
 
 namespace Resturant.Authorization.Users
 {
@@ -29,6 +31,7 @@ namespace Resturant.Authorization.Users
             RoleManager roleManager,
             IPasswordHasher<User> passwordHasher)
         {
+           
             _tenantManager = tenantManager;
             _userManager = userManager;
             _roleManager = roleManager;
@@ -63,8 +66,6 @@ namespace Resturant.Authorization.Users
 
             // User بما أن عملية التسجيل محصورة بالزبائن تم وضع نوع الشحص زبون في جدول ال     
             user.PersonType = Enums.PersonType.Customer;
-
-
 
             await _userManager.InitializeOptionsAsync(tenant.Id);
 
