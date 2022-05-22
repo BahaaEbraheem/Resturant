@@ -22,11 +22,12 @@ namespace Resturant.Authorization.Users
         public Gender Gender { get; set; }
         public int? CountryId { get; set; }
         public int? StateId { get; set; }
+        public PersonType? PersonType { get; set; }
+
         [ForeignKey(nameof(CountryId))]
         public virtual Country Country { get; set; }
         [ForeignKey(nameof(StateId))]
         public virtual State State { get; set; }
-        public PersonType? PersonType { get; set; }
 
         
 

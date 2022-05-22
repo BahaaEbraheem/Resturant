@@ -49,7 +49,7 @@ namespace Resturant.Authorization.Users
                 Name = name,
                 Surname = surname,
                 EmailAddress = emailAddress,
-                IsActive = true,
+                IsActive = false,
                 UserName = userName,
                 IsEmailConfirmed = isEmailConfirmed,
                 Roles = new List<UserRole>()

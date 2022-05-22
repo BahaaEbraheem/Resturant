@@ -30,11 +30,16 @@ using Resturant.MultiTenancy;
 using Resturant.Sessions;
 using Resturant.Web.Models.Account;
 using Resturant.Web.Views.Shared.Components.TenantChange;
+using Resturant.Addresses.CountriesService;
+using Resturant.Addresses.Dto.CountryDto;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Resturant.Web.Controllers
 {
     public class AccountController : ResturantControllerBase
     {
+        private readonly ICountriesAppService _countriesAppService;
+
         private readonly UserManager _userManager;
         private readonly TenantManager _tenantManager;
         private readonly IMultiTenancyConfig _multiTenancyConfig;
@@ -48,6 +53,7 @@ namespace Resturant.Web.Controllers
         private readonly INotificationPublisher _notificationPublisher;
 
         public AccountController(
+            ICountriesAppService countriesAppService,
             UserManager userManager,
             IMultiTenancyConfig multiTenancyConfig,
             TenantManager tenantManager,
@@ -60,6 +66,7 @@ namespace Resturant.Web.Controllers
             ITenantCache tenantCache,
             INotificationPublisher notificationPublisher)
         {
+            _countriesAppService = countriesAppService;
             _userManager = userManager;
             _multiTenancyConfig = multiTenancyConfig;
             _tenantManager = tenantManager;
@@ -137,9 +144,12 @@ namespace Resturant.Web.Controllers
             return RegisterView(new RegisterViewModel());
         }
 
-        private ActionResult RegisterView(RegisterViewModel model)
+        private  ActionResult RegisterView(RegisterViewModel model)
         {
             ViewBag.IsMultiTenancyEnabled = _multiTenancyConfig.IsEnabled;
+            var countries =  _countriesAppService.GetAllAsync(new GetAllCountriesInput());
+
+            model.Countries = new SelectList(countries.Result.Items.ToList(), "Id", "Name");
 
             return View("Register", model);
         }
