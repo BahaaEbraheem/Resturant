@@ -9,7 +9,7 @@ using Resturant.Web.Models.Roles;
 
 namespace Resturant.Web.Controllers
 {
-    [AbpMvcAuthorize(PermissionNames.Pages_Roles)]
+    //[AbpMvcAuthorize(PermissionNames.Pages_Roles)]
     public class RolesController : ResturantControllerBase
     {
         private readonly IRoleAppService _roleAppService;
@@ -21,13 +21,13 @@ namespace Resturant.Web.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var permissions = (await _roleAppService.GetAllPermissions()).Items;
-            var model = new RoleListViewModel
-            {
-                Permissions = permissions
-            };
+            //var permissions = (await _roleAppService.GetAllPermissions()).Items;
+            //var model = new RoleListViewModel
+            //{
+            //    Permissions = permissions
+            //};
 
-            return View(model);
+            return View();
         }
 
         public async Task<ActionResult> EditModal(int roleId)

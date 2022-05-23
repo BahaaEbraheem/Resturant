@@ -40,12 +40,10 @@ namespace Resturant.Authorization.Users
             AbpSession = NullAbpSession.Instance;
         }
 
-        public async Task<User> RegisterAsync(string name, string surname, string emailAddress, string userName, string plainPassword, bool isEmailConfirmed)
+        public async Task<User> RegisterAsync(string name, string surname, string emailAddress, string userName,string plainPassword, bool isEmailConfirmed)
         {
             CheckForTenant();
-
             var tenant = await GetActiveTenantAsync();
-
             var user = new User
             {
                 TenantId = tenant.Id,
@@ -58,20 +56,15 @@ namespace Resturant.Authorization.Users
                 Roles = new List<UserRole>()
             };
             user.SetNormalizedNames();
-           
             foreach (var defaultRole in await _roleManager.Roles.Where(r => r.IsDefault).ToListAsync())
             {
                 user.Roles.Add(new UserRole(tenant.Id, user.Id, defaultRole.Id));
             }
 
-            // User بما أن عملية التسجيل محصورة بالزبائن تم وضع نوع الشحص زبون في جدول ال     
-            user.PersonType = Enums.PersonType.Customer;
-
             await _userManager.InitializeOptionsAsync(tenant.Id);
-
             CheckErrors(await _userManager.CreateAsync(user, plainPassword));
-            await CurrentUnitOfWork.SaveChangesAsync();
 
+            await CurrentUnitOfWork.SaveChangesAsync();
             return user;
         }
 

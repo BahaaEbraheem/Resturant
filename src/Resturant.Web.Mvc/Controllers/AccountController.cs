@@ -34,12 +34,16 @@ using Resturant.Addresses.CountriesService;
 using Resturant.Addresses.Dto.CountryDto;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Resturant.Domain.Customers.Models;
+using Abp.IdentityFramework;
+using Resturant.Customers;
+using Resturant.Customers.Dto;
 
 namespace Resturant.Web.Controllers
 {
     public class AccountController : ResturantControllerBase
     {
         private readonly ICountriesAppService _countriesAppService;
+        private readonly ICustomerAppService _customerAppService;
         private readonly CustomerManager _customerManager;
 
         private readonly UserManager _userManager;
@@ -56,7 +60,7 @@ namespace Resturant.Web.Controllers
 
         public AccountController(
             CustomerManager customerManager,
-
+            ICustomerAppService customerAppService,
             ICountriesAppService countriesAppService,
             UserManager userManager,
             IMultiTenancyConfig multiTenancyConfig,
@@ -70,6 +74,7 @@ namespace Resturant.Web.Controllers
             ITenantCache tenantCache,
             INotificationPublisher notificationPublisher)
         {
+            _customerAppService = customerAppService;
             _customerManager = customerManager;
             _countriesAppService = countriesAppService;
             _userManager = userManager;
@@ -204,6 +209,25 @@ namespace Resturant.Web.Controllers
                     true // Assumed email address is always confirmed. Change this if you want to implement email confirmation.
                 );
 
+           var userByEmail=   await  _userManager.FindByEmailAsync(user.EmailAddress);
+                if (userByEmail.EmailAddress.Any() && (user.EmailAddress==userByEmail.EmailAddress))
+                {
+                    user.Building = model.Building;
+                    user.Address = model.Address;
+                    user.CountryId = model.CountryId;
+                    user.DateOfBirth = model.DateOfBirth;
+                    user.Gender = model.Gender;
+                    user.PhoneNumber = model.PhoneNumber;
+                    user.PersonType = Enums.PersonType.Customer;
+                    user.Street = model.Street;
+                    user.StateId = model.StateId;
+
+                    await _userManager.UpdateAsync(user);
+                    CreateCustomerDto createCustomerDto = ObjectMapper.Map<CreateCustomerDto>(user);
+                    createCustomerDto.UserId = user.Id;
+                    await _customerAppService.CreateAsync(createCustomerDto);
+                }
+              
                 // Getting tenant-specific settings
                 var isEmailConfirmationRequiredForLogin = await SettingManager.GetSettingValueAsync<bool>(AbpZeroSettingNames.UserManagement.IsEmailConfirmationRequiredForLogin);
 

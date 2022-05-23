@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Abp.Application.Services;
 using Abp.Application.Services.Dto;
 using Abp.Authorization;
+using Abp.Authorization.Users;
 using Abp.Domain.Entities;
 using Abp.Domain.Repositories;
 using Abp.Extensions;
@@ -18,6 +19,8 @@ using Resturant.Authorization;
 using Resturant.Authorization.Accounts;
 using Resturant.Authorization.Roles;
 using Resturant.Authorization.Users;
+using Resturant.CrudAppServiceBase;
+using Resturant.Localization.SourceFiles;
 using Resturant.Roles.Dto;
 using Resturant.Users.Dto;
 using Microsoft.AspNetCore.Identity;
@@ -25,8 +28,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Resturant.Users
 {
-    [AbpAuthorize(PermissionNames.Pages_Users)]
-    public class UserAppService : AsyncCrudAppService<User, UserDto, long, PagedUserResultRequestDto, CreateUserDto, UserDto>, IUserAppService
+    ///[AbpAuthorize(PermissionNames.Pages_Users)]
+    public class UserAppService : ResturantAsyncCrudAppService<User, UserDto, long, ResturantBaseListInputDto, CreateUserDto, UserDto>, IUserAppService
     {
         private readonly UserManager _userManager;
         private readonly RoleManager _roleManager;
@@ -52,6 +55,66 @@ namespace Resturant.Users
             _abpSession = abpSession;
             _logInManager = logInManager;
         }
+
+
+        public async Task<PagedResultDto<UserListDto>> GetAll(ResturantBaseListInputDto input)
+        {
+            var data = CreateFilteredQuery(input);
+            var totalCount = await AsyncQueryableExecuter.CountAsync(data);
+            data = ApplySorting(data, input);
+            data = ApplyPaging(data, input);
+
+            var list = await AsyncQueryableExecuter.ToListAsync(data);
+
+            var ListDtos = ObjectMapper.Map<List<UserListDto>>(list);
+         
+
+            return new PagedResultDto<UserListDto>(totalCount, ListDtos);
+        }
+        [RemoteService(isEnabled: false)]
+        public override Task<PagedResultDto<UserDto>> GetAllAsync(ResturantBaseListInputDto input)
+        {
+            return base.GetAllAsync(input);
+        }
+
+
+        /// <summary>
+        /// Assign  Role to user.
+        /// </summary>
+
+        public async Task<UserRoleDto> AssignRoleToUser(CreateUserRoleDto input)
+        {
+            //check if user exists
+            var user = await Repository.FirstOrDefaultAsync(input.UserId);
+            if (user == null)
+                throw new UserFriendlyException(string.Format(Exceptions.ObjectWasNotFound, input.UserId));
+
+            if (await _userManager.CheckUserRole(input.UserId, input.RoleId))
+                throw new UserFriendlyException(string.Format(Exceptions.UserAlreadyHasThisRole));
+
+       
+            if (!(await _userManager.GetRoleAsync(input.RoleId)).IsActive)
+                throw new UserFriendlyException(string.Format(Exceptions.ObjectWasNotFound, Tokens.Role));
+
+            var userRole = ObjectMapper.Map<UserRole>(input);
+            await _userManager.AssignRoleToUser(userRole);
+            var userRoleDto = ObjectMapper.Map<UserRoleDto>(userRole);
+            userRoleDto.CreaterUserName = (await _userManager.GetUserByIdAsync(userRole.CreatorUserId.Value)).UserName;
+            userRoleDto.RoleName = (await _userManager.GetRoleAsync(userRole.RoleId)).Name;
+            return userRoleDto;
+
+
+        }
+
+        /// <summary>
+        /// De-assign  Role to user.
+        /// </summary>
+        public async System.Threading.Tasks.Task UnAssignRoleToUser(int id)
+        {
+            await _userManager.UnAssignRoleToUser(id);
+        }
+
+
 
         public override async Task<UserDto> CreateAsync(CreateUserDto input)
         {
@@ -158,7 +221,7 @@ namespace Resturant.Users
             return userDto;
         }
 
-        protected override IQueryable<User> CreateFilteredQuery(PagedUserResultRequestDto input)
+        protected override IQueryable<User> CreateFilteredQuery(ResturantBaseListInputDto input)
         {
             return Repository.GetAllIncluding(x => x.Roles)
                 .WhereIf(!input.Keyword.IsNullOrWhiteSpace(), x => x.UserName.Contains(input.Keyword) || x.Name.Contains(input.Keyword) || x.EmailAddress.Contains(input.Keyword))
@@ -177,7 +240,7 @@ namespace Resturant.Users
             return user;
         }
 
-        protected override IQueryable<User> ApplySorting(IQueryable<User> query, PagedUserResultRequestDto input)
+        protected override IQueryable<User> ApplySorting(IQueryable<User> query, ResturantBaseListInputDto input)
         {
             return query.OrderBy(r => r.UserName);
         }
@@ -196,7 +259,7 @@ namespace Resturant.Users
             {
                 throw new Exception("There is no current user!");
             }
-            
+
             if (await _userManager.CheckPasswordAsync(user, input.CurrentPassword))
             {
                 CheckErrors(await _userManager.ChangePasswordAsync(user, input.NewPassword));
@@ -218,19 +281,19 @@ namespace Resturant.Users
             {
                 throw new UserFriendlyException("Please log in before attempting to reset password.");
             }
-            
+
             var currentUser = await _userManager.GetUserByIdAsync(_abpSession.GetUserId());
             var loginAsync = await _logInManager.LoginAsync(currentUser.UserName, input.AdminPassword, shouldLockout: false);
             if (loginAsync.Result != AbpLoginResultType.Success)
             {
                 throw new UserFriendlyException("Your 'Admin Password' did not match the one on record.  Please try again.");
             }
-            
+
             if (currentUser.IsDeleted || !currentUser.IsActive)
             {
                 return false;
             }
-            
+
             var roles = await _userManager.GetRolesAsync(currentUser);
             if (!roles.Contains(StaticRoleNames.Tenants.Admin))
             {
@@ -245,6 +308,30 @@ namespace Resturant.Users
             }
 
             return true;
+        }
+
+
+        public async Task<UserDto> GetUserDetails(long userId)
+        {
+            //get user details
+            var user = ObjectMapper.Map<UserDto>(await Repository.FirstOrDefaultAsync(userId));
+          
+
+            //get user roles 
+            user.Roles = ObjectMapper.Map<List<UserRoleDto>>(await _userManager.GetUserRolesAsync(userId));
+            foreach (var userRole in user.Roles)
+            {
+                userRole.RoleName = (await _userManager.GetRoleAsync(userRole.RoleId)).Name;
+
+                if (userRole.CreatorUserId.HasValue)
+                    userRole.CreaterUserName = (await _userManager.GetUserByIdAsync(userRole.CreatorUserId.Value)).UserName;
+             
+            }
+
+
+
+            return user;
+
         }
     }
 }

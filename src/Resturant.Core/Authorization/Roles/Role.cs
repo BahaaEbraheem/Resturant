@@ -11,6 +11,7 @@ namespace Resturant.Authorization.Roles
         public Role()
         {
         }
+        public bool IsActive { get; set; }
 
         public Role(int? tenantId, string displayName)
             : base(tenantId, displayName)

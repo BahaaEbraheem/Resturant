@@ -4,21 +4,26 @@ using System.Threading.Tasks;
 using Abp.Application.Services;
 using Abp.Application.Services.Dto;
 using Abp.Authorization;
+using Abp.Collections.Extensions;
 using Abp.Domain.Repositories;
 using Abp.Extensions;
 using Abp.IdentityFramework;
 using Abp.Linq.Extensions;
+using Abp.UI;
 using Resturant.Authorization;
 using Resturant.Authorization.Roles;
 using Resturant.Authorization.Users;
+using Resturant.CrudAppServiceBase;
+using Resturant.Localization.SourceFiles;
 using Resturant.Roles.Dto;
+using ITLand.CMMS.Libs.DevExtreme;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace Resturant.Roles
 {
-    [AbpAuthorize(PermissionNames.Pages_Roles)]
-    public class RoleAppService : AsyncCrudAppService<Role, RoleDto, int, PagedRoleResultRequestDto, CreateRoleDto, RoleDto>, IRoleAppService
+  //  [AbpAuthorize(PermissionNames.Pages_Roles)]
+    public class RoleAppService : ResturantAsyncCrudAppService<Role, RoleDto, int, ResturantBaseListInputDto, CreateRoleDto, RoleDto>, IRoleAppService
     {
         private readonly RoleManager _roleManager;
         private readonly UserManager _userManager;
@@ -29,12 +34,15 @@ namespace Resturant.Roles
             _roleManager = roleManager;
             _userManager = userManager;
         }
-
         public override async Task<RoleDto> CreateAsync(CreateRoleDto input)
         {
+            if (input.GrantedPermissions == null || input.GrantedPermissions.Count == 0)
+                throw new UserFriendlyException(Exceptions.AtLeastOneOfThesePermissionsMustBeGranted);
+
             CheckCreatePermission();
 
             var role = ObjectMapper.Map<Role>(input);
+            role.IsActive = true;
             role.SetNormalizedName();
 
             CheckErrors(await _roleManager.CreateAsync(role));
@@ -81,7 +89,23 @@ namespace Resturant.Roles
 
             return MapToEntityDto(role);
         }
+        public async Task<int> GetUsersCountForRole(GetRolesInput input)
+        {
+            var role = await _roleManager.GetRoleByIdAsync(input.Id);
 
+            var users = await _userManager.GetUsersInRoleAsync(role.Name);
+
+            return users.Count;
+        }
+
+        public async Task<ListResultDto<PermissionDto>> GetGrantedPermissions(int id)
+        {
+            var permissions = await _roleManager.GetGrantedPermissionsAsync(id);
+
+            return new ListResultDto<PermissionDto>(
+                ObjectMapper.Map<List<PermissionDto>>(permissions).OrderBy(p => p.DisplayName).ToList()
+            );
+        }
         public override async Task DeleteAsync(EntityDto<int> input)
         {
             CheckDeletePermission();
@@ -105,13 +129,88 @@ namespace Resturant.Roles
                 ObjectMapper.Map<List<PermissionDto>>(permissions).OrderBy(p => p.DisplayName).ToList()
             ));
         }
-
-        protected override IQueryable<Role> CreateFilteredQuery(PagedRoleResultRequestDto input)
+        [RemoteService(IsEnabled = false)]
+        public override Task<PagedResultDto<RoleDto>> GetAllAsync(ResturantBaseListInputDto input)
         {
-            return Repository.GetAllIncluding(x => x.Permissions)
-                .WhereIf(!input.Keyword.IsNullOrWhiteSpace(), x => x.Name.Contains(input.Keyword)
-                || x.DisplayName.Contains(input.Keyword)
-                || x.Description.Contains(input.Keyword));
+            return base.GetAllAsync(input);
+        }
+
+        public override async Task<RoleDto> GetAsync(EntityDto<int> input)
+        {
+            var role = await Repository.FirstOrDefaultAsync(input.Id);
+            if (role == null)
+                throw new UserFriendlyException(string.Format((Exceptions.ObjectWasNotFound), Tokens.Role));
+
+            var roleDto = ObjectMapper.Map<RoleDto>(role);
+
+            roleDto.UsersCount = await GetUsersCountForRole(new GetRolesInput { Id = roleDto.Id }); ;
+
+            roleDto.GrantedPermissions = (await _roleManager.GetGrantedPermissionsAsync(roleDto.Id)).Select(p => L("Permission_" + p.Name)).ToList();
+
+            if (roleDto.CreatorUserId.HasValue)
+                roleDto.CreatorUserName = (await _userManager.GetUserByIdAsync(roleDto.CreatorUserId.Value)).UserName;
+
+            return roleDto;
+        }
+
+        public async Task ActivateDeactivate(EntityDto<int> input)
+        {
+
+            var role = await Repository.FirstOrDefaultAsync(input.Id);
+            if (role == null)
+                throw new UserFriendlyException(string.Format((Exceptions.ObjectWasNotFound), Tokens.Role));
+
+            var users = await _userManager.GetUsersInRoleAsync(role.Name);
+
+            //if (users.Count > 0)
+            //    throw new UserFriendlyException(string.Format((Exceptions.UserAlreadyHasThisRole)));
+
+            role.IsActive = !role.IsActive;
+
+            MapToEntityDto(role);
+        }
+
+       // [ResturantAuthorize(PermissionNames.Roles_View, RequireAllPermissions = true)]
+        public async Task<PagedResultDto<RoleListResultDto>> GetAllRoles(ResturantBaseListInputDto input)
+        {
+            var data = CreateFilteredQuery(input);
+            var totalCount = await AsyncQueryableExecuter.CountAsync(data);
+            data = ApplyPaging(data, input);
+            data = ApplySorting(data, input);
+
+
+            var list = await AsyncQueryableExecuter.ToListAsync(data);
+
+            list = list.WhereIf(input.IsActive.HasValue && input.IsActive.Value, i => i.IsActive).ToList();
+
+            var ListDtos = ObjectMapper.Map<List<RoleListResultDto>>(list);
+
+            foreach (var item in ListDtos)
+            {
+                if (input.IsActive.HasValue && input.IsActive.Value)
+                    continue;
+
+                item.GrantedPermissions = (await _roleManager.GetGrantedPermissionsAsync(item.Id)).Select(p => p.Name).ToList();
+                if (item.CreatorUserId.HasValue)
+                    item.CreatorUserName = (await _userManager.GetUserByIdAsync(item.CreatorUserId.Value)).UserName;
+                else
+                    item.CreatorUserName = "";
+                item.UsersCount = await GetUsersCountForRole(new GetRolesInput { Id = item.Id });
+                item.CanDelete = !(item.UsersCount > 0);
+
+            }
+
+            return new PagedResultDto<RoleListResultDto>(totalCount, ListDtos);
+        }
+
+        protected override IQueryable<Role> CreateFilteredQuery(ResturantBaseListInputDto input)
+        {
+            //var data = Repository.GetAll();
+            var data = base.CreateFilteredQuery(input);
+            if (input.HasFilter)
+                data = new DataSourceLoaderImpl<Role>(data, input, default, true).LoadAsync().Result;
+
+            return data;
         }
 
         protected override async Task<Role> GetEntityByIdAsync(int id)
@@ -119,10 +218,7 @@ namespace Resturant.Roles
             return await Repository.GetAllIncluding(x => x.Permissions).FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        protected override IQueryable<Role> ApplySorting(IQueryable<Role> query, PagedRoleResultRequestDto input)
-        {
-            return query.OrderBy(r => r.DisplayName);
-        }
+
 
         protected virtual void CheckErrors(IdentityResult identityResult)
         {
@@ -142,6 +238,11 @@ namespace Resturant.Roles
                 Permissions = ObjectMapper.Map<List<FlatPermissionDto>>(permissions).OrderBy(p => p.DisplayName).ToList(),
                 GrantedPermissionNames = grantedPermissions.Select(p => p.Name).ToList()
             };
+        }
+
+        public Task<PagedResultDto<RoleDto>> GetAllAsync(PagedRoleResultRequestDto input)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

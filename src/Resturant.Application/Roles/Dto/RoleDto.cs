@@ -23,5 +23,12 @@ namespace Resturant.Roles.Dto
         public string Description { get; set; }
 
         public List<string> GrantedPermissions { get; set; }
+
+        public int UsersCount { get; set; }
+
+
+        public long? CreatorUserId { get; set; }
+
+        public string CreatorUserName { get; set; }
     }
 }

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Abp.Application.Services.Dto;
 using Abp.Authorization.Users;
@@ -10,6 +11,12 @@ namespace Resturant.Users.Dto
     [AutoMapFrom(typeof(User))]
     public class UserDto : EntityDto<long>
     {
+        public UserDto()
+        {
+            
+            Roles = new List<UserRoleDto>();
+          
+        }
         [Required]
         [StringLength(AbpUserBase.MaxUserNameLength)]
         public string UserName { get; set; }
@@ -36,5 +43,8 @@ namespace Resturant.Users.Dto
         public DateTime CreationTime { get; set; }
 
         public string[] RoleNames { get; set; }
+
+
+        public List<UserRoleDto> Roles { get; set; }
     }
 }

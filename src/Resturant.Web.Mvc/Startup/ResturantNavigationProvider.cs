@@ -60,10 +60,16 @@ namespace Resturant.Web.Startup
                         PageNames.Customers,
                         L("Customers"),
                         url: "Customers",
-                        icon: "fas fa-building"
-                        //permissionDependency: new SimplePermissionDependency(PermissionNames.Pages_Tenants)
+                        icon: "fas fa-building",
+                       permissionDependency: new SimplePermissionDependency(PermissionNames.Customers_Active_Deactive)
                     )
-                ).AddItem(
+                )
+              .AddItem( // Menu items below is just for demonstration!
+                    new MenuItemDefinition(
+                        "User Managment",
+                        L("user_managment"),
+                        icon: "fas fa-circle"
+                    ).AddItem(
                     new MenuItemDefinition(
                         PageNames.Users,
                         L("Users"),
@@ -79,6 +85,7 @@ namespace Resturant.Web.Startup
                         icon: "fas fa-theater-masks",
                         permissionDependency: new SimplePermissionDependency(PermissionNames.Pages_Roles)
                     )
+                )
                 )
                 .AddItem( // Menu items below is just for demonstration!
                     new MenuItemDefinition(

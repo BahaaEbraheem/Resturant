@@ -21,12 +21,12 @@ namespace Resturant.Web.Controllers
 
         public async Task<ActionResult> Index()
         {
-            var roles = (await _userAppService.GetRoles()).Items;
-            var model = new UserListViewModel
-            {
-                Roles = roles
-            };
-            return View(model);
+            //var roles = (await _userAppService.GetRoles()).Items;
+            //var model = new UserListViewModel
+            //{
+            //    Roles = roles
+            //};
+            return View();
         }
 
         public async Task<ActionResult> EditModal(long userId)
