@@ -9,7 +9,7 @@
 
 <div class="bg-table-grey">
 
-    <div class="col-md-12 table-responsive" style="background-color: white; padding: 10px 20px 10px 20px" ;>
+    <div class="col-md-12 table-responsive" style="background-color: white; padding: 10px 20px 10px 20px; " ;>
         <div id="table">
 
         </div>
@@ -167,7 +167,8 @@
                     isActive = e.data.isActive;
                 }
 
-            },   onCellPrepared: function (e) {
+            }, onCellPrepared: function (e) {
+               
                     if (e.rowType === "data" && e.columnIndex==7) {
                         var $links = e.cellElement.find(".dx-link-delete")
                         if (e.row.data.isActive == false) {

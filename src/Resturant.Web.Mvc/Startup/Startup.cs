@@ -55,7 +55,15 @@ namespace Resturant.Web.Startup
                         NamingStrategy = new CamelCaseNamingStrategy()
                     };
                 });
-
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy",
+                    builder => builder
+                        .AllowAnyMethod()
+                        .AllowCredentials()
+                        .SetIsOriginAllowed((host) => true)
+                        .AllowAnyHeader());
+            });
             IdentityRegistrar.Register(services);
             AuthConfigurer.Configure(services, _appConfiguration);
 
@@ -104,6 +112,7 @@ namespace Resturant.Web.Startup
             app.UseJwtTokenMiddleware();
 
             app.UseAuthorization();
+            app.UseCors("CorsPolicy");
 
             app.UseEndpoints(endpoints =>
             {

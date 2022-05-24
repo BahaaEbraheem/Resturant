@@ -19,3 +19,21 @@
         }
     });
 })();
+
+//$(document).ready(function () {
+//    debugger
+//    $("#RegisterForm").validate({
+//        rules: {
+//            Name: "required"
+//        },
+//        messages: {
+//            Name: "Please specify your name"
+
+//        }
+//    })
+
+//    $('#btn').click(function () {
+//        $("#form1").validate();  // This is not working and is not validating the form
+//    });
+
+//});

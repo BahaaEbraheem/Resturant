@@ -7351,7 +7351,8 @@
   margin-bottom: -1px;
 }
 .dx-datagrid-borders .dx-datagrid-headers .dx-datagrid-table {
-  border-bottom-width: 1px;
+    border-bottom-width: 1px;
+    height: 70px;
 }
 .dx-datagrid-headers .dx-datagrid-table .dx-row > td {
   border-bottom: 1px solid #ddd;

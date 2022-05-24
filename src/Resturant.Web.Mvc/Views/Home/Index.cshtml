@@ -4,26 +4,12 @@
     ViewBag.Title = L("HomePage");
     ViewBag.CurrentPageName = PageNames.Home; }
 
-@section scripts
-{
-    <environment names="Development">
-        <script src="~/libs/chartjs/dist/Chart.js" asp-append-version="true"></script>
-        <script src="~/view-resources/Views/Home/Index.js" asp-append-version="true"></script>
-    </environment>
-
-    <environment names="Staging,Production">
-        <script src="~/view-resources/Views/_Bundles/home-index.min.js" asp-append-version="true"></script>
-    </environment>
-}
-
 
 <html lang="en" class="sr">
 <head>
-
-
-    @*<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css">*@
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css">
-    <script src="https://unpkg.com/scrollreveal@4.0.0/dist/scrollreveal.min.js"></script>
+    <link href="~/css/all.css" rel="stylesheet" />
+    <script src="~/libs/jquery/jquery.js"></script>
+    <script src="~/js/scrollreveal.min.js"></script>
     <link href="~/css/style1.css" rel="stylesheet" />
     <style>
         .banner {
@@ -437,10 +423,6 @@
 
     </script>
 
-
-    @*<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>*@
     <!---------------------Fotter section Ends==========-->
 </body>
 </html>

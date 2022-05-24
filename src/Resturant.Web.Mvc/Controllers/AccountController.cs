@@ -37,9 +37,12 @@ using Resturant.Domain.Customers.Models;
 using Abp.IdentityFramework;
 using Resturant.Customers;
 using Resturant.Customers.Dto;
+using Microsoft.AspNetCore.Cors;
 
 namespace Resturant.Web.Controllers
 {
+    [EnableCors("{CorsPolicy}")]
+
     public class AccountController : ResturantControllerBase
     {
         private readonly ICountriesAppService _countriesAppService;

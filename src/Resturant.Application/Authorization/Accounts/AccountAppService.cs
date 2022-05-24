@@ -1,11 +1,13 @@
 using System.Threading.Tasks;
 using Abp.Configuration;
 using Abp.Zero.Configuration;
+using Microsoft.AspNetCore.Cors;
 using Resturant.Authorization.Accounts.Dto;
 using Resturant.Authorization.Users;
 
 namespace Resturant.Authorization.Accounts
 {
+    [EnableCors("{CorsPolicy}")]
     public class AccountAppService : ResturantAppServiceBase, IAccountAppService
     {
         // from: http://regexlib.com/REDetails.aspx?regexp_id=1923
