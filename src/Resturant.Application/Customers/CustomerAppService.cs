@@ -66,7 +66,7 @@ namespace Resturant.Customers
 
                 foreach (var item in listDto)
                 {
-
+                    item.PhoneNumber = _userManager.Users.SingleOrDefault(a => a.Id == item.UserId).PhoneNumber;
                     item.EmailAddress = _userManager.Users.SingleOrDefault(a => a.Id == item.UserId).EmailAddress;
                     item.Surname = _userManager.Users.SingleOrDefault(a => a.Id == item.UserId).Surname;
                     item.Name = _userManager.Users.SingleOrDefault(a => a.Id == item.UserId).Name;
@@ -177,7 +177,6 @@ namespace Resturant.Customers
             await Repository.UpdateAsync(Customer);
 
         }
-
         public override async Task<CustomerDto> GetAsync(EntityDto<int> input)
         {
             var Customer = await Repository.FirstOrDefaultAsync(input.Id);

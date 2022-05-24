@@ -1981,7 +1981,7 @@ namespace Resturant.Localization.SourceFiles {
         /// </summary>
         public static string user_managment {
             get {
-                return ResourceManager.GetString("user_managment", resourceCulture);
+                return ResourceManager.GetString("Users Mng", resourceCulture);
             }
         }
         

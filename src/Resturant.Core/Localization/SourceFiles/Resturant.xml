@@ -1,9 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <localizationDictionary culture="en">
   <texts>
-   
+
     <text name="Menu" value="Menu" />
-   
+    <text name="user_managment" value="Users Mng" />
+    <text name="Admins" value="Admins" />
+    <text name="Customers" value="Customers" />
+    <text name="Reserve" value="Reserve" />
+    
     <text name="HomePage" value="Home page" />
     <text name="About" value="About" />
     <text name="WelcomeMessage" value="Welcome to Resturant!" />

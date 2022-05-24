@@ -307,16 +307,7 @@
                                 type: "required", message: '@string.Format(DataAnnotations.Required, Tokens.UserName)'
                             },
                         ]
-                    }, {
-                        dataField: "password",
-                        label: { text: "Password" },
-
-                        validationRules: [
-                            {
-                                type: "required", message: '@string.Format(DataAnnotations.Required, Tokens.Password)'
-                            },
-                        ]
-                    },
+                    }, 
 
                     {
                         dataField: "emailAddress",
@@ -340,7 +331,18 @@
                         allowSearch: false,
                     },
 
-
+                    {
+                        dataField: "isActive",
+                        caption: "Status",
+                        allowSorting: false,
+                        allowFiltering: false,
+                        allowSearch: false,
+                        lookup: {
+                            valueExpr: "id",
+                            displayExpr: "name",
+                            dataSource: [{ name: "Active", id: true }, { name: "InActive", id: false }]
+                        }
+                    },
 
 
 
@@ -362,18 +364,7 @@
                         allowSearch: false,
                         allowEditing: false,
                     },
-                    {
-                        dataField: "isActive",
-                        caption: "Status",
-                        allowSorting: false,
-                        allowFiltering: false,
-                        allowSearch: false,
-                        lookup: {
-                            valueExpr: "id",
-                            displayExpr: "name",
-                            dataSource: [{ name: "Active", id: true }, { name: "InActive", id: false }]
-                        }
-                    },
+
 
                     @*{
                         type: "buttons",
@@ -395,7 +386,9 @@
                     isEditable = true;
                 },
                 onCellPrepared: function (e) {
-                    if (e.rowType === "data" && e.columnIndex == 13) {
+                    debugger
+
+                    if (e.rowType === "data" && e.columnIndex == 10) {
                         var $links = e.cellElement.find(".dx-link-delete")
                         if (e.row.data.isActive == false) {
                             $links.removeClass('dx-icon-trash');
@@ -466,7 +459,7 @@
                         dataField: "isActive",
                         caption: "Status",
                         allowSorting: false,
-                               allowFiltering: false,
+                        allowFiltering: false,
                         allowSearch: false,
                         lookup: {
                             valueExpr: "id",
