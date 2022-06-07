@@ -59,16 +59,69 @@ namespace Resturant.Localization.SourceFiles {
                 resourceCulture = value;
             }
         }
-        
+
         /// <summary>
         ///   Looks up a localized string similar to About.
         /// </summary>
-        public static string About {
-            get {
+        public static string About
+        {
+            get
+            {
                 return ResourceManager.GetString("About", resourceCulture);
             }
+        }   /// <summary>
+            ///   Looks up a localized string similar to ChooseCountry.
+            /// </summary>
+        public static string ChooseCountry
+        {
+            get
+            {
+                return ResourceManager.GetString("ChooseCountry", resourceCulture);
+            }
         }
-        
+
+
+        /// <summary>
+        ///   Looks up a localized string similar to Address.
+        /// </summary>
+        public static string Address
+        {
+            get
+            {
+                return ResourceManager.GetString("Address", resourceCulture);
+            }
+        }   /// <summary>
+            ///   Looks up a localized string similar to Date Of Birth.
+            /// </summary>
+        public static string DateOfBirth
+        {
+            get
+            {
+                return ResourceManager.GetString("DateOfBirth", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Gender Name.
+        /// </summary>
+        public static string GenderName
+        {
+            get
+            {
+                return ResourceManager.GetString("GenderName", resourceCulture);
+            }
+        }
+        /// <summary>
+        ///   Looks up a localized string similar to ChooseCity.
+        /// </summary>
+        public static string ChooseCity
+        {
+            get
+            {
+                return ResourceManager.GetString("ChooseCity", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Looks up a localized string similar to Accepted.
         /// </summary>

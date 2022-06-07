@@ -771,4 +771,19 @@
   <data name="Customers" xml:space="preserve">
     <value>Customers</value>
   </data>
+  <data name="ChooseCity" xml:space="preserve">
+    <value>Choose City</value>
+  </data>
+  <data name="ChooseCountry" xml:space="preserve">
+    <value>Choose Country</value>
+  </data>
+  <data name="Address" xml:space="preserve">
+    <value>Address</value>
+  </data>
+  <data name="DateOfBirth" xml:space="preserve">
+    <value>Date Of Birth</value>
+  </data>
+  <data name="GenderName" xml:space="preserve">
+    <value>Gender Name</value>
+  </data>
 </root>

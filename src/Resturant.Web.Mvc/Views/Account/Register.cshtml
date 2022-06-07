@@ -4,10 +4,9 @@
 @using static Resturant.Enums
 @{ ViewBag.Title = L("Register"); }
 
+
 @section styles{
-    <link href="~/css/select2.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="~/libs/intl-tel-input/css/intlTelInput.css" />
-    <link href="~/libs/bootstrap-datepicker/css/bootstrap-datepicker.min.css" rel="stylesheet" />
+
     <style>
         .login-box, .register-box {
             width: 50%;
@@ -18,31 +17,21 @@
         }
     </style>
 }
-@*@section scripts
-    {
-        <environment names="Development">
-            <script src="~/view-resources/Views/Account/Register.js" asp-append-version="true"></script>
-        </environment>
-
-        <environment names="Staging,Production">
-            <script src="~/view-resources/Views/Account/Register.min.js" asp-append-version="true"></script>
-        </environment>
-    }*@
 
 
 <h4 class="text-center">@Tokens.RegisterAsCustomer</h4>
 <form id="RegisterForm" asp-action="Register" method="post">
     @if (ViewBag.ErrorMessage != null)
     {
-<div class="alert alert-danger">
-    <i class="fas fa-warning"></i> @ViewBag.ErrorMessage
-</div>}
+        <div class="alert alert-danger">
+            <i class="fas fa-warning"></i> @ViewBag.ErrorMessage
+        </div>}
     <input type="hidden" name="IsExternalLogin" value="@Model.IsExternalLogin.ToString()" />
     <input type="hidden" name="ExternalLoginAuthSchema" value="@Model.ExternalLoginAuthSchema" />
 
     <div class="input-group mb-3">
         <label class="col-2 text-cyan">  Name:</label>
-        <input type="text" name="Name" id="ss" class="form-control" placeholder="@L("Name")" value="@Model.Name" required maxlength="@AbpUserBase.MaxNameLength">
+        <input type="text" name="Name" id="ss" class="form-control" placeholder="@L("Name")" value="@Model.Name" required @*maxlength="@AbpUserBase.MaxNameLength"*@>
         <div class="input-group-append">
             <div class="input-group-text">
                 <span class="fas fa-arrow-left"></span>
@@ -53,7 +42,7 @@
 
     <div class="input-group mb-3">
         <label class="col-2 text-cyan">  Surname:</label>
-        <input type="text" name="Surname" class="form-control" placeholder="@L("Surname")" value="@Model.Surname" required maxlength="@AbpUserBase.MaxSurnameLength">
+        <input type="text" name="Surname" class="form-control" placeholder="@L("Surname")" value="@Model.Surname" required @*maxlength="@AbpUserBase.MaxSurnameLength"*@>
         <div class="input-group-append">
             <div class="input-group-text">
                 <span class="fas fa-arrow-left"></span>
@@ -62,7 +51,7 @@
     </div>
     <div class="input-group mb-3">
         <label class="col-2 text-cyan">  EmailAddress:</label>
-        <input type="email" name="EmailAddress" class="form-control" placeholder="@L("EmailAddress")" value="@Model.EmailAddress" required maxlength="@AbpUserBase.MaxEmailAddressLength">
+        <input type="email" name="EmailAddress" class="form-control" placeholder="@L("EmailAddress")" value="@Model.EmailAddress" required @*maxlength="@AbpUserBase.MaxEmailAddressLength"*@>
         <div class="input-group-append">
             <div class="input-group-text">
                 <span class="fas fa-envelope"></span>
@@ -104,14 +93,17 @@
         </div>
     </div>
     <div class="input-group mb-3">
-        <label class="col-2 text-cyan">  DateOfBirth:</label>
+        <label class="col-2 text-cyan" asp-for="DateOfBirth">  DateOfBirth:</label>
 
         <input type="date" name="DateOfBirth" class="form-control" placeholder="@L("DateOfBirth")" value="@Model.DateOfBirth" required>
+
         <div class="input-group-append">
             <div class="input-group-text">
                 <span class="fas fa-birthday-cake"></span>
             </div>
+
         </div>
+
     </div>
 
     <div class="input-group mb-3">
@@ -123,6 +115,7 @@
                 <span class="fas fa-user"></span>
             </div>
         </div>
+
     </div>
     <div class="input-group mb-3">
         <label class="col-2 text-cyan" asp-for="Password">@Tokens.Password</label>
@@ -133,42 +126,38 @@
                 <span class="fas fa-lock"></span>
             </div>
         </div>
+
     </div>
     <div class="form-group text-left">
         <label class="text-blue h5" asp-for="Gender">@Tokens.Gender</label>
-        <select asp-for="Gender" asp-items="Html.GetEnumSelectList<Gender>()" class="form-control">
+        <select asp-for="Gender" asp-items="Html.GetEnumSelectList<Gender>()" class="form-control" required>
             <option selected="selected" value="">@Tokens.ChooseGender</option>
         </select>
-        @*<div class="invalid-feedback">
-            <span asp-validation-for="Gender"></span>
-        </div>*@
+
     </div>
 
 
     <div class="form-group text-left">
         <label class="text-blue h5" asp-for="PhoneNumber">@Tokens.PhoneNumber</label>
 
-        <input class="form-control" asp-for="PhoneNumber" aria-describedby="PhoneNumber" />
-        @*<div class="invalid-feedback">
-            <span asp-validation-for="PhoneNumber"></span>
-        </div>*@
+        <input class="form-control" asp-for="PhoneNumber" aria-describedby="PhoneNumber" required />
+
     </div>
 
 
     <div class="form-group text-left">
         <label class="text-blue h5" asp-for="CountryId">@Tokens.Country</label>
-        <select asp-for="CountryId" asp-items="Model.Countries" class="form-control">
-            <option selected="selected" value="">@Tokens.Country</option>
+        <select asp-for="CountryId" asp-items="Model.Countries" class="form-control" required>
+            <option selected value="">@Tokens.ChooseCountry</option>
         </select>
-        @*<div class="invalid-feedback">
-            <span asp-validation-for="CountryId"></span>
-        </div>*@
+
     </div>
     <div class="form-group text-left">
         <label class="text-blue h5" asp-for="StateId">@Tokens.City</label>
-        <select asp-for="StateId" class="form-control">
-            <option selected="selected" value="">@Tokens.City</option>
+        <select asp-for="StateId" class="form-control" required>
+            <option selected="selected" value="">@Tokens.ChooseCity</option>
         </select>
+
     </div>
 
     <div class="row">
@@ -180,34 +169,24 @@
         </div>
     </div>
 
+
 </form>
-@*<div class="social-auth-links text-center">
-        <p>- OR -</p>
-        <a href="javascript:;" class="btn btn-block btn-primary">
-            <i class="fab fa-facebook mr-2"></i>
-            Sign up using Facebook
-        </a>
-        <a href="javascript:;" class="btn btn-block btn-danger">
-            <i class="fab fa-google-plus mr-2"></i>
-            Sign up using Google+
-        </a>
-    </div>*@
 
 @section scripts {
 
+    <environment names="Development">
+        <script src="~/view-resources/Views/Account/Register.js" asp-append-version="true"></script>
+    </environment>
 
-    @*<environment names="Development">
-            <script src="~/view-resources/Views/Account/Register.js" asp-append-version="true"></script>
-        </environment>
+    <environment names="Staging,Production">
+        <script src="~/view-resources/Views/Account/Register.min.js" asp-append-version="true"></script>
+    </environment>
 
-        <environment names="Staging,Production">
-            <script src="~/view-resources/Views/Account/Register.min.js" asp-append-version="true"></script>
-        </environment>*@
-    <script src="~/libs/intl-tel-input/js/intlTelInput.min.js"></script>
-    <script src="~/libs/intl-tel-input/js/utils.min.js"></script>
-    <script src="~/libs/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
-
+ 
     <script>
+
+       
+
         function getIp(callback) {
             fetch('https://ipinfo.io/json?token=69b14fdf24485d', { headers: { 'Accept': 'application/json' } })
                 .then((resp) => resp.json())
@@ -251,21 +230,16 @@
         });
     </script>
 
-    @*<script src="~/libs/jquery-validate/jquery.validate.js"></script>*@
-    <script src="~/js/select2.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
-
     <script>
+
+
         $('#CountryId').select2({
         });
         $('#StateId').select2({
         }); $('#Gender').select2({
         });
     </script>
-    <script>
-        $("#btn").on('click', function () {
-            debugger
-            $("#RegisterForm").validate();
-        })
-    </script>
+
+
+
 }

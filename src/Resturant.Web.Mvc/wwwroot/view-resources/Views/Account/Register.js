@@ -15,13 +15,12 @@
             UserName: {
                 required: true,
                 customUsername: true
-            }
+           }
         }
     });
 })();
-
 //$(document).ready(function () {
-//    debugger
+
 //    $("#RegisterForm").validate({
 //        rules: {
 //            Name: "required"
@@ -32,8 +31,26 @@
 //        }
 //    })
 
-//    $('#btn').click(function () {
-//        $("#form1").validate();  // This is not working and is not validating the form
+//    $('#RegisterButton').click(function () {
+//        debugger
+//        $("#form").validate();  // This is not working and is not validating the form
+//    });
+
+//});
+//$(document).ready(function () {
+
+//    $("#RegisterForm").validate({
+//        rules: {
+//            Name: "required"
+//        },
+//        messages: {
+//            Name: "Please specify your name"
+
+//        }
+//    })
+
+//    $('#RegisterButton').click(function () {
+//        $("#RegisterForm").validate();  // This is not working and is not validating the form
 //    });
 
 //});

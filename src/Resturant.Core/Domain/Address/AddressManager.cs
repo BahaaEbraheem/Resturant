@@ -19,5 +19,16 @@ namespace Resturant.Domain.Address
             this._countriesRepository = countriesRepository;
             _statesRepository = statesRepository;
         }
+        /// <summary>
+        /// Get a specific Country.
+        /// </summary>
+        public async Task<Country> GetCountryAsync(int? countryId)
+        {
+            return await _countriesRepository.FirstOrDefaultAsync(i => i.Id == countryId);
+        }
+        public async Task<State> GetStateAsync(int? stateId)
+        {
+            return await _statesRepository.FirstOrDefaultAsync(i => i.Id == stateId);
+        }
     }
 }

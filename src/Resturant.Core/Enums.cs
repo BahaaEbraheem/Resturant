@@ -32,7 +32,7 @@ namespace Resturant
             [Display(ResourceType = typeof(Tokens), Name = nameof(Tokens.Male))]
             Male = 1,
             [Display(ResourceType = typeof(Tokens), Name = nameof(Tokens.Female))]
-            Female = 0
+            Female = 2
         }
         public enum PersonType
         {

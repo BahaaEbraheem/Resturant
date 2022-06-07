@@ -29,6 +29,7 @@ namespace Resturant.Addresses.StatesService
             return new ListResultDto<StateListDto>(
                 ObjectMapper.Map<List<StateListDto>>(states)
                 );
+            
         }
     }
 }

@@ -20,7 +20,8 @@ namespace Resturant.Customers.Dto
     {
         public CustomerMapProfile()
         {
-
+            CreateMap<CustomerDto, User>();
+            CreateMap<User, CustomerDto>();
             CreateMap<CreateCustomerDto, User>();
             CreateMap<User, CreateCustomerDto>();
             CreateMap<CreateCustomerDto, Customer>();

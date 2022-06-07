@@ -14,6 +14,7 @@
     <h3 class="text-blue">@Tokens.Customers </h3>
 </div><!--.table-header-->
 
+
 <div class="bg-table-grey">
 
     <div class="col-md-12 table-responsive" style="background-color: white; padding: 10px 20px 10px 20px" ;>
@@ -37,8 +38,13 @@
     <script>
                  // confirm delete message
         var isEditable = false;
-     
-    function errorMessage(event , message) {
+        var countries = (@Html.Raw(Json.Serialize(ViewBag.countries))).map(a => a.value);
+        var countryId;
+        let states = [];
+       
+
+        function errorMessage(event, message) {
+            debugger
           var result = DevExpress.ui.dialog.custom({
                 showTitle: false,
               dragEnabled: false,
@@ -53,8 +59,9 @@
                         }
                     }]
             });
-            event.cancel = $.Deferred(function (deferred) {
+        event.cancel = $.Deferred(function (deferred) {
                 result.show().done(function (result) {
+                 
                     deferred.resolve(!result);
             });
             }).promise();
@@ -66,6 +73,7 @@
             reasonType = result;
         });*@
         var isActive;
+
         var gridDataSource = new DevExpress.data.DataSource({
             load: function (loadOptions) {
                 var d = $.Deferred();
@@ -75,13 +83,8 @@
                     skipCount: loadOptions.skip >= 0 ? loadOptions.skip : 0,     // The number of records to skip
                     maxResultCount: loadOptions.take > 0 ? loadOptions.take : 100,     // The number of records to take
                     requireTotalCount: true,   // A flag telling the server whether the total count of records (totalCount) is required
-
                 }).done(function (result) {
-                    debugger;
-
                     result.data = result.items;
-
-
                     // You can process the received data here
                     d.resolve(result, {
                         //totalCount: result.result.totalCount,
@@ -119,9 +122,15 @@
             },
         });
 
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+        ///////////////////////////////////////////////////////////////////////////////////////
+
+
         $(function () {
             var types;
-            debugger
 
             var dataGrid = $("#table").dxDataGrid({
                 dataSource: gridDataSource,
@@ -184,9 +193,11 @@
                                     item.visible = false;
                                     isEditable = false;
                                 }
-       
+
                             }
-                       
+
+
+
                     },
                         //colCount: 9,
                         //colSpan: 2,
@@ -211,13 +222,122 @@
                                     },*@
                                 ]
                             },
+                            {
+                                dataField: "countryId",
+                                label: { text: "@Tokens.Country" },
+                                    editorType: "dxSelectBox",
+                                editorOptions: {
+                                    dataSource: countries,
+                                    placeholder: "Select",
+                                    valueExpr: "value",
+                                    displayExpr: "text",
+                                    disabled: false,
+                                    showClearButton: true,
+                                 
+                                    onValueChanged: function (e) {
+                                        debugger
+                                     
+                                        const previouscountryId = e.previousValue;
+                                        countryId = e.value;
+                                        gridDataSource.load()
+                                        debugger
+                                        //abp.services.app.states.getAll({ countryId: countryId }).done(function (data) {
+                                        //}).done(function (result) {
+                                        //    result.data = result.items
+                                        //    states = result.data
+                                         
+                                        //    //result.items.forEach(function (item, index) {
+                                        //    //    store.push([{ type: "insert", data: item}]);
+                                        //    //})
+                                        //    debugger
+                                        //    d.resolve(states, {
+                                        //    });
+                                        //})
+                                        //return d.promise();
+                                    }
+                                 
+                                },
+                                    validationRules: [{
+                                        type: "required",
+                                }]
+                            },
+                            {
 
+                                dataField: "stateId",
+                                label: { text: "@Tokens.State" },
+                                editorType: "dxSelectBox",
+                                editorOptions: {
+                                    dataSource: new DevExpress.data.DataSource({
+                                        store: {
+                                            type: "array",
+                                            key: "id",
+                                            data: [
+                                                { id: 1, name: "Item 1" }
+                                            ]
+                                        }, repaintChangesOnly: true, editing: {
+                                            refreshMode: 'full' | 'reshape' | 'repaint'
+                                        },
+                                       
+                                      
+                                        load: function (e) {
+                                            debugger
+                                        store =[];
+                                            gridDataSource._reshapeOnPush = true
+                                            gridDataSource.reload()
+                                            var d = $.Deferred();
+                                                abp.services.app.states.getAll({ countryId: countryId }).done(function (data) {
+                                                }).done(function (result) {
+                                                store = result.items
+                                                    debugger
+                                                    gridDataSource.load().done(function (store) {
+                                                        //'result' contains the loaded array
+                                                    });
+                                                    d.resolve(store, {
+                                                    });
+                                                    
+                                                })
+                                            return d.promise();
+                                            this.load()
+                                        },
+                                        
+                                    }),
 
+                                    valueExpr: "id",
+                                    displayExpr: "name",
+                                    disabled: false,
+                                    showClearButton: true,
+                                }
+                                    },
                             {
                                 dataField: "phoneNumber",
-                                dataType: "String",
+                                //helpText: "Enter the phone number in UAE phone format",
+                                editorOptions: {
+                                    mask: "+971 (X00) 000-0000",
+                                    maskRules: {
+                                        "X": /[02-9]/
+                                    },
+                                    maskInvalidMessage: "The phone must have a correct USA phone format",
+                                    useMaskedValue: true
+                                },
+                                //validationRules: [{
+                                //    type: "pattern",
+                                //    pattern: /^\+\s*1\s*\(\s*[02-9]\d{2}\)\s*\d{3}\s*-\s*\d{4}$/,
+                                //    message: "The phone must have a correct USA phone format"
+                                //}]
                             },
-
+                            {
+                                dataField: "dateOfBirth",
+                                editorType: "dxDateBox",
+                                label: {
+                                    text: "Date of birth"
+                                },
+                                editorOptions: {
+                                    invalidDateMessage: "The date must have the following format: MM/dd/yyyy"
+                                },
+                                validationRules: [{
+                                    type: "required",
+                                    message: "Date of birth is required"
+                                }] },
                             {
                                 dataField: "emailAddress",
                                 dataType: "Email",
@@ -229,8 +349,23 @@
                                         type: "email", message: '@string.Format(DataAnnotations.Email, Tokens.EmailAddress)'
                                     },
                                 ]
+                            },{
+                                dataField: "userName",
+                                dataType: "UserName",
+                                editorType: "dxTextBox",
+                                editorOptions: {
+                                    mode: 'username',
+                                    placeholder: 'Enter UserName',
+                                    showClearButton: true,
+                                },
+                                validationRules: [
+                                    {
+                                        type: "required", message: '@string.Format(DataAnnotations.Required, Tokens.UserName)'
+                                    },
+
+                                ]
                             },
-                       
+
                             {
                                 dataField: "password",
                                 label: { text: "Password" },
@@ -270,7 +405,7 @@
                     displayToast(e, '@String.Format("Customer was Activated successfully")');
 
                 },*@
-
+              
                 onRowRemoving: function (e) {
                     $(".dx-loadpanel-content").hide();
                         if (e.data.isActive == true) {
@@ -307,7 +442,7 @@
                                 type: "required", message: '@string.Format(DataAnnotations.Required, Tokens.UserName)'
                             },
                         ]
-                    }, 
+                    },
 
                     {
                         dataField: "emailAddress",
@@ -386,7 +521,7 @@
                     isEditable = true;
                 },
                 onCellPrepared: function (e) {
-                    debugger
+
 
                     if (e.rowType === "data" && e.columnIndex == 10) {
                         var $links = e.cellElement.find(".dx-link-delete")
@@ -469,6 +604,14 @@
                         },
                         { dataField: "surname", label: { text: "@Tokens.Surname" } },
                         { dataField: "phoneNumber", label: { text: "@Tokens.PhoneNumber" } },
+                        { dataField: "address", label: { text: "@Tokens.Address" } },
+                        { dataField: "street", label: { text: "@Tokens.Street" } },
+                        { dataField: "building", label: { text: "@Tokens.Building" } },
+                        { dataField: "state", label: { text: "@Tokens.State" } },
+                        { dataField: "country", label: { text: "@Tokens.Country" } },
+                        { dataField: "dateOfBirth", label: { text: "@Tokens.DateOfBirth" } },
+                        { dataField: "genderName", label: { text: "@Tokens.GenderName" } },
+                        { dataField: "gender", label: { text: "@Tokens.Gender" } },
 
 
 

@@ -21,20 +21,23 @@ using Abp.UI;
 using Resturant.Localization.SourceFiles;
 using Microsoft.EntityFrameworkCore;
 using ITLand.CMMS.Libs.DevExtreme;
+using Resturant.Domain.Address;
 
 namespace Resturant.Customers
 {
     public class CustomerAppService : ResturantAsyncCrudAppService<Customer, CustomerDto, int, ResturantBaseListInputDto, CreateCustomerDto, EditCustomerDto>, ICustomerAppService
 
     {
+        private readonly AddressManager _addressRepository;
+
         private readonly IRepository<Customer> _CustomerRepository;
         private readonly UserManager _userManager;
 
-        public CustomerAppService(IRepository<Customer> Repository, UserManager userManager) : base(Repository)
+        public CustomerAppService(IRepository<Customer> Repository, AddressManager addressRepository, UserManager userManager) : base(Repository)
         {
             _CustomerRepository = Repository;
             _userManager = userManager;
-
+            _addressRepository = addressRepository;
         }
 
         /// <summary>
@@ -72,9 +75,7 @@ namespace Resturant.Customers
                     item.Name = _userManager.Users.SingleOrDefault(a => a.Id == item.UserId).Name;
                     item.UserName = _userManager.Users.SingleOrDefault(a => a.Id == item.UserId).UserName;
                     item.IsActive = _userManager.Users.SingleOrDefault(a => a.Id == item.UserId).IsActive;
-                    //item.StateName = Enum.GetName(typeof(Status), item.CustomerStatus);
-                    var user = await _userManager.FindByIdAsync(AbpSession.GetUserId().ToString());
-                    item.CreatorUserName = (await _userManager.GetUserByIdAsync(user.Id)).UserName;
+                    item.CreatorUserName = (await _userManager.GetUserByIdAsync(AbpSession.GetUserId())).UserName;
                 }
                 return new PagedResultDto<CustomerListDto>(totalCount, listDto);
             }
@@ -108,7 +109,6 @@ namespace Resturant.Customers
                     if (existCustomer == null)
                     {
                         Customer.UserId = user.Id;
-                    
                         Customer.Id = await Repository.InsertAndGetIdAsync(Customer);
 
                         //Add Customer Role to this Customer
@@ -183,16 +183,17 @@ namespace Resturant.Customers
             if (Customer == null)
                 throw new UserFriendlyException(string.Format((Exceptions.ObjectWasNotFound), Tokens.Customer));
 
-            var CustomerDto = ObjectMapper.Map<CustomerDto>(Customer);
+           
             var user = await _userManager.Users.FirstOrDefaultAsync(a => a.Id == Customer.UserId);
             if (user == null)
                 throw new UserFriendlyException(string.Format((Exceptions.ObjectWasNotFound), Tokens.Users));
-            CustomerDto.UserName = user.UserName;
-            CustomerDto.Name = user.Name;
-            CustomerDto.Surname = user.Surname;
-            CustomerDto.IsActive = user.IsActive;
-            CustomerDto.EmailAddress = user.EmailAddress;
-            CustomerDto.CreatorUserName = (await _userManager.GetUserByIdAsync(CustomerDto.CreatorUserId.Value)).Name;
+            var CustomerDto = ObjectMapper.Map<CustomerDto>(user);
+            CustomerDto.GenderName = Enum.GetName(user.Gender);
+
+            CustomerDto.Country = _addressRepository.GetCountryAsync(user.CountryId).Result.Name ;
+            CustomerDto.State = _addressRepository.GetStateAsync(user.StateId).Result.Name;
+
+            CustomerDto.CreatorUserName = (await _userManager.GetUserByIdAsync(AbpSession.GetUserId())).UserName;
 
             return CustomerDto;
         }

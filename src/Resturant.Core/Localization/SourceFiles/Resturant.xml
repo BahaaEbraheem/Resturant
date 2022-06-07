@@ -7,6 +7,12 @@
     <text name="Admins" value="Admins" />
     <text name="Customers" value="Customers" />
     <text name="Reserve" value="Reserve" />
+    <text name="ChooseCountry" value="Choose Country" />
+    <text name="ChooseCity" value="Choose City" />
+    <text name="ChooseGender" value="Choose Gender" />
+    <text name="Address" value="Address" />
+    <text name="DateOfBirth" value="Date Of Birth" />
+    <text name="GenderName" value="Gender Name" />
     
     <text name="HomePage" value="Home page" />
     <text name="About" value="About" />
